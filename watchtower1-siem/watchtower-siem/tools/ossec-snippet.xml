@@ -1,0 +1,8 @@
+<!-- Add inside <ossec_config> in /var/ossec/etc/ossec.conf on the Wazuh manager, then: systemctl restart wazuh-manager -->
+<integration>
+  <name>custom-watchtower</name>
+  <hook_url>http://WATCHTOWER_HOST:8000/api/ingest</hook_url>
+  <api_key>change-me</api_key>
+  <level>3</level>
+  <alert_format>json</alert_format>
+</integration>

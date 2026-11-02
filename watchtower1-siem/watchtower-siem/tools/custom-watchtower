@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+"""Wazuh integratord script. Install as /var/ossec/integrations/custom-watchtower (chmod 750, chown root:wazuh).
+Wazuh calls it as: custom-watchtower <alert_file> <api_key> <hook_url>"""
+import sys, json, urllib.request
+alert_file, api_key, hook_url = sys.argv[1], sys.argv[2], sys.argv[3]
+with open(alert_file) as f: alert = json.load(f)
+req = urllib.request.Request(hook_url, json.dumps(alert).encode(), {"Content-Type": "application/json", "X-API-Key": api_key})
+try: urllib.request.urlopen(req, timeout=10)
+except Exception as e: sys.exit(f"watchtower forward failed: {e}")

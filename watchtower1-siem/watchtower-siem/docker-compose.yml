@@ -1,0 +1,13 @@
+services:
+  siem:
+    build: .
+    ports: ["8000:8000", "5514:5514/udp"]
+    environment:
+      SIEM_API_KEY: "change-me"          # empty = no auth (dev only)
+      RETENTION_DAYS: "90"
+      AUTO_ISOLATE_CRITICAL: "0"          # 1 = run Isolate host on critical incidents
+      WAZUH_DETECT: "0"                   # 0 = Wazuh alerts go to triage only (no duplicate rule alerts)
+      PLAYBOOK_WEBHOOK_URL: ""            # POSTs playbook runs here (SOAR / firewall / EDR bridge)
+    volumes: ["siem-data:/srv/data"]
+    restart: unless-stopped
+volumes: {siem-data: {}}
